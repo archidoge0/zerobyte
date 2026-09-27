@@ -31,7 +31,7 @@ export const auth = betterAuth({
 	secret: await cryptoUtils.deriveSecret("better-auth"),
 	baseURL: {
 		allowedHosts: config.allowedHosts,
-		protocol: "auto",
+		protocol: config.isSecure ? "https" : "auto",
 		fallback: config.baseUrl,
 	},
 	trustedOrigins: config.trustedOrigins,
@@ -41,6 +41,7 @@ export const auth = betterAuth({
 	advanced: {
 		cookiePrefix: "zerobyte",
 		useSecureCookies: config.isSecure,
+		trustedProxyHeaders: config.trustProxy,
 		ipAddress: {
 			disableIpTracking: config.flags.disableRateLimiting,
 		},

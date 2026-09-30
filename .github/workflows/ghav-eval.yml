@@ -1,0 +1,52 @@
+# GHAV replay of nicotsx/zerobyte#577 on the fixed Before task tree.
+name: GHAV zerobyte 577
+on:
+  push:
+    branches: ['codex/ghav-zerobyte-577-*']
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - name: Run Oxlint
+        uses: oxc-project/oxlint-action@b78c21302e4bc637e83927135c35a6684de1053e
+        with:
+          version: '1.50.0'
+          config: .oxlintrc.json
+          deny-warnings: true
+  typecheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - name: Run type checks
+        run: bun run tsc
+  test-server:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - name: Run server tests
+        run: bun run test:server
+  test-client:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - name: Run client tests with original CI coverage flags
+        run: bun run test:client --ci --coverage
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - name: Build project
+        run: bun run build

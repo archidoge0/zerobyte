@@ -1,0 +1,34 @@
+name: "ghav before: Checks"
+"on":
+  push:
+    branches:
+      - ghav/dev/577
+    paths:
+      - .ghav/before
+permissions:
+  contents: read
+jobs:
+  checks:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Install dependencies
+        uses: ./.github/actions/install-dependencies
+      - uses: oxc-project/oxlint-action@latest
+        with:
+          config: .oxlintrc.json
+          deny-warnings: true
+          version: 1.50.0
+      - name: Run type checks
+        shell: bash
+        run: bun run tsc
+      - name: Run tests
+        shell: bash
+        run: bun run test --ci --coverage
+      - name: Build project
+        shell: bash
+        run: bun run build

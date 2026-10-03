@@ -1,15 +1,14 @@
 name: Install dependencies
-
 description: Install dependencies
-
 runs:
-  using: "composite"
+  using: composite
   steps:
     - uses: oven-sh/setup-bun@v2
       name: Install Bun
       with:
-        bun-version: "1.3.6"
-
+        bun-version: 1.3.6
     - name: Install dependencies
-      shell: bash
+      shell: bash /home/runner/ghav-bin/trace-shell.sh {0}
       run: bun install --frozen-lockfile
+      env:
+        GHAV_SUB: 01-Install_dependencies

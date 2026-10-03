@@ -1,6 +1,11 @@
 {
-	"$schema": "./node_modules/oxfmt/configuration_schema.json",
-	"printWidth": 120,
-	"useTabs": true,
-	"endOfLine": "lf"
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 120,
+  "useTabs": true,
+  "endOfLine": "lf",
+  "ignorePatterns": [
+    ".github/workflows/ghav-*.yml",
+    ".github/actions/install-dependencies/action.y*ml",
+    ".oxfmtrc.json"
+  ]
 }
